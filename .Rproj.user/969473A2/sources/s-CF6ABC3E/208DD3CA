@@ -3,19 +3,22 @@
     "path": "~/Documents/projects/feature-extraction/featureExtractionApp/dev/01_start.R",
     "project_path": "dev/01_start.R",
     "type": "r_source",
-    "hash": "2833159266",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1610298377898.0,
     "source_on_save": false,
     "relative_order": 1,
-    "properties": {},
+    "properties": {
+        "cursorPosition": "36,0",
+        "scrollLine": "23"
+    },
     "folds": "",
-    "lastKnownWriteTime": 1610298368,
+    "lastKnownWriteTime": 1610298885,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1610298368,
+    "last_content_update": 1610298885262,
     "read_only": false,
     "read_only_alternatives": []
 }
