@@ -47,7 +47,11 @@ app_ui <- function(request) {
         
         ), # end column
         column(7, 
-               mod_vis_ui("vis_ui_1")) # end column
+               conditionalPanel(
+                 condition = "input['extract_features_ui_1-method'] == 'pca'",
+                 mod_vis_ui("vis_ui_1")
+                 ) # end conditional panel
+        ) # end column
     ) # end fluidRow
   ) # end fluidPage
   ) # end tagList
