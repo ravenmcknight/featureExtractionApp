@@ -37,13 +37,18 @@ app_ui <- function(request) {
                            # is there a point to using golem if we're not using lots of modules?
                            
                            tabPanel("Extract Features!", value = "extract", 
-                                    br())
+                                    br(),
+                                    mod_extract_features_ui("extract_features_ui_1")
+                                  ) # end tabPanel
+                           
                                     
         )
         
         
-        )
-    )
+        ), # end column
+        column(7, 
+               mod_vis_ui("vis_ui_1")) # end column
+    ) # end fluidRow
   ) # end fluidPage
   ) # end tagList
 }

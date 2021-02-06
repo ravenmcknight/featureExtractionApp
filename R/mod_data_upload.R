@@ -13,8 +13,10 @@ mod_data_upload_ui <- function(id){
     
     ## introduction text
     
+    
     ## csv options
-    p("Tell us about your CSV below or use our sample data. Note that
+    p("If you don't upload your own data set, we'll use the iris data set for practice!
+      Tell us about your CSV below or use our sample data. Note that
       only numeric columns with non-zero variance will be returned."),
 
     radioButtons(inputId = ns('header'),  
@@ -65,35 +67,46 @@ mod_data_upload_ui <- function(id){
 #' }
 mod_data_upload_server <- function(input, output, session, r){
   ns <- session$ns
- 
-  
+
   # read in the CSV
   user_data <- reactive({
-    req(input$file)
-    file <- input$file
-    if (is.null(file)) return(NULL)
-    user_data <- read.csv(file$datapath, header = (input$header == "Yes"),
-                          sep = input$sep, quote = input$quote, stringsAsFactors=FALSE)
-    
-    data.table::setDT(user_data)
+    if(is.null(input$file)){
+      user_data <- iris
+    }
+    else{
+      file <- input$file
+      if (is.null(file)) return(NULL)
+      user_data <- read.csv(file$datapath, header = (input$header == "Yes"),
+                            sep = input$sep, quote = input$quote, stringsAsFactors=FALSE)
+      
+      data.table::setDT(user_data)
+    }
     
     # remove missing data
     user_data <- na.omit(user_data)
     
-    # return only numeric columns
+    # set characters to factors? 
+    user_data[sapply(user_data, is.character)] <- lapply(user_data[sapply(user_data, is.character)], 
+                                           as.factor)
+    
+    # return only numeric columns but save factors for grouping
+    factor_cols <- names(Filter(is.factor, user_data))
     user_data <- na.omit(user_data[, sapply(user_data, is.numeric)])
     
+    
     # and remove columns with zero variance
-    user_data <- user_data[, !sapply(user_data, function(x) min(x) ==  max(x))]
+    user_data <- user_data[, !sapply(user_data, function(x) min(x) == max(x))]
     
     r$user_data <- user_data
+    r$factor_cols <- factor_cols
     return(user_data)
   })
-  
+
   output$upload_preview <- renderTable({
     req(user_data())
     head(user_data())
   })
+  
 
 }
     

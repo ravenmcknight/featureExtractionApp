@@ -3,6 +3,8 @@
 #' @description A shiny Module.
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
+#' @param data called `clean_user_data` input by user
+#' @param list of factor columns from input data called `factor_cols`
 #'
 #' @noRd 
 #'
@@ -25,12 +27,12 @@ mod_extract_features_ui <- function(id){
                  label = "Select 2 or 3 dimensions", 
                  choices = c('Two' = '2', 
                              'Three' = '3'),
-                 selected = '2')
+                 selected = '2'),
     
-    # this will need to made with render UI
-    # selectInput(inputid = ns('group'), 
-    #             label = "Select a grouping variable (for visualization)", 
-    #             choices = )
+    uiOutput(ns("group_selection")), 
+    
+    actionButton(inputId = ns('go'), 
+                 label = "Extract features!")
  
   )
 }
@@ -40,6 +42,29 @@ mod_extract_features_ui <- function(id){
 #' @noRd 
 mod_extract_features_server <- function(input, output, session, r){
   ns <- session$ns
+
+  output$group_selection <- renderUI({
+    req(r$factor_cols)
+    selectInput(
+      inputId = ns("grouping"),
+      label = "Select a grouping variable (for visualization)",
+      choices = r$factor_cols,
+      selected = r$factor_cols[1],
+      multiple = FALSE
+    )
+  })
+  
+  observeEvent(input$go, {
+    r$go <- "go"
+    r$dims <- reactive({input$dims})
+    r$method <- reactive({input$method})
+    r$grouping <- reactive({input$grouping})
+  })
+  
+  
+
+  
+  
  
 }
     

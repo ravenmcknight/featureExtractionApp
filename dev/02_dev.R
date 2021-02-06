@@ -24,6 +24,7 @@ usethis::use_package( "dplyr" )
 golem::add_module( name = "data_upload" ) # Name of the module
 golem::add_module( name = "data_prep")
 golem::add_module( name = "extract_features")
+golem::add_module( name = "vis")
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*

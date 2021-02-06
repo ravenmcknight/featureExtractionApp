@@ -9,5 +9,7 @@ app_server <- function( input, output, session ) {
   # List the first level callModules here
   callModule(mod_data_upload_server, "data_upload_ui_1", r = r)
   callModule(mod_data_prep_server, "data_prep_ui_1", r = r)
+  callModule(mod_extract_features_server, "extract_features_ui_1", r = r)
+  callModule(mod_vis_server, "vis_ui_1", r = r)
 
 }
